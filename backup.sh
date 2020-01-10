@@ -21,7 +21,7 @@ fi
 
 echo "$DATE" >> $LOGFILE
 
-/bin/tar czvf $TARBALL $1
+/bin/tar czf $TARBALL $1 2> $LOGFILE
 
 # must pass the destination user, ip, and absoulte path when executing script as $2
 
