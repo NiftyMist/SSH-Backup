@@ -27,7 +27,7 @@ echo "$LOGTIME - Creating the tarball for $1"
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
 echo "$LOGTIME - Starting the RSYNC"
-echo "/usr/bin/rsync --remove-source-files -av $TAR $2 --log-file=$LOGFILE"
+/usr/bin/rsync --remove-source-files -av $TARBALL $2 --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 
 END=`date +s`
