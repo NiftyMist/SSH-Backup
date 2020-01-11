@@ -20,7 +20,7 @@ fi
 
 echo "$DATE" >> "$LOGFILE"
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
-echo "$LOGTIME - Creating the tarball for $1"
+echo "$LOGTIME - Creating the tarball for $1 at $TARBALL"
 /bin/tar czf "$TARBALL" --absolute-names"$1" 2> "$LOGFILE"
 
 # must pass the destination user, ip, and absoulte path when executing script as $2
