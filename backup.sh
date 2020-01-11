@@ -14,7 +14,8 @@ LOGFILE="/var/log/scripts/backup-script.log"
 
 # End Vars
 
-if [ ! -d "$LOGDIR ]; then
+if [ ! -d "$LOGDIR ] 
+then
     /bin/mkdir $LOGDIR
     /usr/bin/touch $LOGFILE
 fi
