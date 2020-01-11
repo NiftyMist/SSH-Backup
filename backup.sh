@@ -6,7 +6,7 @@
 
 DATE=`date "+%Y-%m-%d"`
 
-TARBALL="/tmp/backup-$DATE.tar.gz
+TARBALL="/tmp/backup-$DATE.tar.gz"
 
 LOGDIR="/var/log/scripts"
 
@@ -14,19 +14,19 @@ LOGFILE="/var/log/scripts/backup-script.log"
 
 # End Vars
 
-if [ ! -d "$LOGDIR ] 
+if [ ! -d "$LOGDIR" ] 
 then
-    /bin/mkdir $LOGDIR
-    /usr/bin/touch $LOGFILE
+    /bin/mkdir "$LOGDIR"
+    /usr/bin/touch "$LOGFILE"
 fi
 
-echo "$DATE" >> $LOGFILE
+echo "$DATE" >> "$LOGFILE"
 
-/bin/tar czf $TARBALL $1 2> $LOGFILE
+/bin/tar czf "$TARBALL" "$1" 2> "$LOGFILE"
 
 # must pass the destination user, ip, and absoulte path when executing script as $2
 
 echo "rsync --remove-source-files -av $TAR $2 --log-file=$LOGFILE"
-echo " " >> $LOGFILE
-echo " ############" >> $LOGFILE
+echo " " >> "$LOGFILE"
+echo " ############ " >> "$LOGFILE"
 echo " " >> $LOGFILE
