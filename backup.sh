@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# must pass the touch directory absolute path when exeucting script as $1
+# must pass the source directory's absolute path when exeucting script as $1
 
 START=`date +s`
 
