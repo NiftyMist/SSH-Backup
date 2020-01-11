@@ -25,7 +25,7 @@ echo "$DATE" >> $LOGFILE
 
 # must pass the destination user, ip, and absoulte path when executing script as $2
 
-rsync --remove-source-files -av $TAR $2 --log-file=$LOGFILE
+echo "rsync --remove-source-files -av $TAR $2 --log-file=$LOGFILE"
 echo " " >> $LOGFILE
 echo " ############" >> $LOGFILE
 echo " " >> $LOGFILE
