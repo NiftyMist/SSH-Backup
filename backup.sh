@@ -20,13 +20,13 @@ fi
 
 echo "$DATE" >> "$LOGFILE"
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
-echo "$LOGTIME - Creating the tarball for $1 at $TARBALL"
+echo "$LOGTIME - Creating the tarball for $1 at $TARBALL" > "$LOGFILE"
 /bin/tar czf "$TARBALL" --absolute-names "$1" 2> "$LOGFILE"
 
 # must pass the destination user, ip, and absoulte path when executing script as $2
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
-echo "$LOGTIME - Starting the RSYNC"
+echo "$LOGTIME - Starting the RSYNC to $2" > "$LOGFILE"
 /usr/bin/rsync --remove-source-files -av $TARBALL $2 --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 
