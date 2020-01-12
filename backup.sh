@@ -29,12 +29,8 @@ LOGTIME=`date "+%Y-%m-%d %H:%M"`
 echo "$LOGTIME - Starting the RSYNC to $2" > "$LOGFILE"
 /usr/bin/rsync --remove-source-files -av $TARBALL $2 --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
-
 END=`date +s`
-
 RUNTIME=$((END-START))
 MINUTES=$((RUNTIME / 60))
-echo "Script completed in $MINUTES minutes." >> "$LOGFILE"
-echo " " >> "$LOGFILE"
-echo " ############ " >> "$LOGFILE"
-echo " " >> $LOGFILE
+LOGTIME=`date "+%Y-%m-%d %H:%M"`
+echo "$LOGTIME - Script completed in $MINUTES minutes." >> "$LOGFILE"
