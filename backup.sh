@@ -41,7 +41,7 @@ fi
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
 echo "$LOGTIME - Creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
-/bin/tar czf "$TARBALL" --absolute-names "$SOURCE" 2> "$LOGFILE"
+/bin/tar -I pigz -cf "$TARBALL" --absolute-names "$SOURCE" 2> "$LOGFILE"
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
 echo "$LOGTIME - Starting the RSYNC to $REMOTE_HOST" > "$LOGFILE"
