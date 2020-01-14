@@ -30,13 +30,14 @@ fi
 
 # check remote disk space
 REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph /zfs-bakup/offsite | tail -n 1 | awk '{ print $5 }'`
-if [ "{$REMOTE_DISK_SPACE::-1}" -gt 80 ]
+SPACE=${REMOTE_DISK_SPACE::-1}
+if [ "$SPACE" -gt 80 ]
 then 
     LOGTIME=`date "+%Y-%m-%d %H:%M"`
     echo "$LOGTIME - remote disk space check passed with $REMOTE_DISK_SPACE" >> "$LOGFILE"
 else
     LOGTIME=`date "+%Y-%m-%d %H:%M"`
-    echo "$LOGIMTE - remote disk space check failed with $REMOTE_DISK_SPACE, stopping backup" >> "$LOGFILE"
+    echo "$LOGTIME - remote disk space check failed with $REMOTE_DISK_SPACE, stopping backup" >> "$LOGFILE"
     exit 1
 fi
 
