@@ -1,6 +1,14 @@
 #!/bin/bash
 
-# must pass the source directory's absolute path when exeucting script as $1
+# adjustable vars
+SOURCE="/zfs/home-share"
+
+REMOTE_USER="root"
+
+REMOTE_HOST="bak01.niftymist.us"
+
+REMOTE_DIR="/zfs-backup/offsite/home-share/"
+# end adjustable vars
 
 START=`date +%s`
 
@@ -18,7 +26,7 @@ then
     /usr/bin/touch "$LOGFILE"
 fi
 
-#check remote disk space
+# check remote disk space
 REMOTE_DISK_SPACE=`ssh root@bak01.niftymist.us df -Ph /zfs-bakup/offsite | tail -n 1 | awk '{ print $5 }'`
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
 if [ "{$REMOTE_DISK_SPACE::01}" -gt 80 ]
@@ -30,14 +38,12 @@ else
 fi
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
-echo "$LOGTIME - Creating the tarball for $1 at $TARBALL" >> "$LOGFILE"
-/bin/tar czf "$TARBALL" --absolute-names "$1" 2> "$LOGFILE"
-
-# must pass the destination user, ip, and absoulte path when executing script as $2
+echo "$LOGTIME - Creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
+/bin/tar czf "$TARBALL" --absolute-names "$SOURCE" 2> "$LOGFILE"
 
 LOGTIME=`date "+%Y-%m-%d %H:%M"`
-echo "$LOGTIME - Starting the RSYNC to $2" > "$LOGFILE"
-/usr/bin/rsync --remove-source-files -av $TARBALL $2 --log-file=$LOGFILE
+echo "$LOGTIME - Starting the RSYNC to $REMOTE_HOST" > "$LOGFILE"
+/usr/bin/rsync --remove-source-files -av $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 END=`date +%s`
 RUNTIME=$((END-START))
