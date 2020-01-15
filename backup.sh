@@ -42,15 +42,15 @@ else
 fi
 
 LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - Creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
+echo "$LOGTIME - creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
 /bin/tar -I pigz -cf "$TARBALL" --absolute-names "$SOURCE" 2> "$LOGFILE"
 
 LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - Starting the RSYNC to $REMOTE_HOST" > "$LOGFILE"
+echo "$LOGTIME - starting the RSYNC to $REMOTE_HOST" >> "$LOGFILE"
 /usr/bin/rsync --remove-source-files -av $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 END=`date +%s`
 RUNTIME=$((END-START))
 MINUTES=$((RUNTIME / 60))
 LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - Script completed in $MINUTES minutes." >> "$LOGFILE"
+echo "$LOGTIME - script completed in $MINUTES minutes." >> "$LOGFILE"
