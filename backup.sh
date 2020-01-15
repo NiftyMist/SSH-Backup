@@ -9,7 +9,7 @@ REMOTE_HOST="bak01.niftymist.us"
 
 REMOTE_DIR="/zfs-bakup/offsite/home-share/"
 
-REMOTE_PARITION="/zfs-backup/offsite"
+REMOTE_PARTITION="/zfs-backup/offsite"
 # end adjustable vars
 
 START=`date +%s`
@@ -29,7 +29,7 @@ then
 fi
 
 # check remote disk space
-REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph /zfs-bakup/offsite | tail -n 1 | awk '{ print $5 }'`
+REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph $REMOTE_PARTITION | tail -n 1 | awk '{ print $5 }'`
 SPACE=${REMOTE_DISK_SPACE::-1}
 if [ "$SPACE" -lt 80 ]
 then 
