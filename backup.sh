@@ -47,7 +47,7 @@ echo "$LOGTIME - creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
 
 LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
 echo "$LOGTIME - starting the RSYNC to $REMOTE_HOST" >> "$LOGFILE"
-/usr/bin/rsync --remove-source-files -av $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR --log-file=$LOGFILE
+/usr/bin/rsync --remove-source-files --stats -hav $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 END=`date +%s`
 RUNTIME=$((END-START))
