@@ -7,7 +7,7 @@ REMOTE_USER="root"
 
 REMOTE_HOST="bak01.niftymist.us"
 
-REMOTE_DIR="/zfs-backup/offsite/home-share/"
+REMOTE_DIR="/zfs-bakup/offsite/home-share/"
 
 REMOTE_PARITION="/zfs-backup/offsite"
 # end adjustable vars
