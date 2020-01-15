@@ -33,24 +33,24 @@ REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph /zfs-bakup/offsite | tai
 SPACE=${REMOTE_DISK_SPACE::-1}
 if [ "$SPACE" -lt 80 ]
 then 
-    LOGTIME=`date "+%Y-%m-%d %H:%M"`
+    LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
     echo "$LOGTIME - remote disk space check passed with $REMOTE_DISK_SPACE" >> "$LOGFILE"
 else
-    LOGTIME=`date "+%Y-%m-%d %H:%M"`
+    LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
     echo "$LOGTIME - remote disk space check failed with $REMOTE_DISK_SPACE, stopping backup" >> "$LOGFILE"
     exit 1
 fi
 
-LOGTIME=`date "+%Y-%m-%d %H:%M"`
+LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
 echo "$LOGTIME - Creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
 /bin/tar -I pigz -cf "$TARBALL" --absolute-names "$SOURCE" 2> "$LOGFILE"
 
-LOGTIME=`date "+%Y-%m-%d %H:%M"`
+LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
 echo "$LOGTIME - Starting the RSYNC to $REMOTE_HOST" > "$LOGFILE"
 /usr/bin/rsync --remove-source-files -av $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR --log-file=$LOGFILE
 echo " " >> "$LOGFILE"
 END=`date +%s`
 RUNTIME=$((END-START))
 MINUTES=$((RUNTIME / 60))
-LOGTIME=`date "+%Y-%m-%d %H:%M"`
+LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
 echo "$LOGTIME - Script completed in $MINUTES minutes." >> "$LOGFILE"
