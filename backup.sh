@@ -5,7 +5,7 @@ SOURCE="/zfs/home-share"
 
 REMOTE_USER="root"
 
-REMOTE_HOST="bak01.niftymist.us"
+REMOTE_HOST="bak01.mitchell.house"
 
 REMOTE_DIR="/zfs-bakup/offsite/home-share/"
 
