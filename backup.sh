@@ -9,7 +9,7 @@ REMOTE_HOST="bak01.mitchell.house"
 
 REMOTE_DIR="/zfs-bakup/offsite/home-share/"
 
-REMOTE_PARTITION="/zfs-backup/offsite"
+REMOTE_PARTITION="/zfs-bakup/offsite"
 # end adjustable vars
 
 START=`date +%s`
