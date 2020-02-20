@@ -41,6 +41,17 @@ else
     exit 1
 fi
 
+REMOTE_FILES_TO_REMOVE=( $(ssh $REMOTE_USER@$REMOTE_HOST find $REMOTE_DIR -type f -name '*.tar.gz' -mtime +30) )
+if [ ${#REMOTE_FILES_TO_REMOVE[@]} -gt 0 ]
+then
+    for i in ${REMOTE_FILES_TO_REMOVE[@]}
+    do
+        LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
+        echo "$LOGTIME - $REMOTE_FILES_TO_REMOVE is older than 30 days...  deleting" >> "$LOGFILE"
+        ssh $REMOTE_USER@$REMOTE_HOST rm -rf $REMOTE_FILES_TO_REMOVE
+    done
+fi
+
 LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
 echo "$LOGTIME - creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
 /bin/tar -I pigz -cf "$TARBALL" --absolute-names "$SOURCE" 2>> "$LOGFILE"
