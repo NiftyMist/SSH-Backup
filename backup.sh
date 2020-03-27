@@ -34,7 +34,7 @@ then
 fi
 
 # check remote host availability
-REMOTE_AVAILABILITY=`ssh -q $ERMOTE_USER@REMOTE_HOST exit`
+REMOTE_AVAILABILITY=`ssh -q $ERMOTE_USER@$REMOTE_HOST exit`
 if [ "$REMOTE_AVAILABILITY" == 255 ]
 then
     LOGTIMEFUN "- remote host is not available, stopping backup"
