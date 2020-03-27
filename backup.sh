@@ -22,6 +22,11 @@ LOGDIR="/var/log/scripts"
 
 LOGFILE="/var/log/scripts/backup-script.log"
 
+LOGTIMEFUN () {
+    LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
+    echo "$LOGTIME $1" | tee -a $LOGFILE
+}
+
 if [ ! -d "$LOGDIR" ] 
 then
     /bin/mkdir "$LOGDIR"
@@ -33,11 +38,9 @@ REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph $REMOTE_PARTITION | tail
 SPACE=${REMOTE_DISK_SPACE::-1}
 if [ "$SPACE" -lt 80 ]
 then 
-    LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-    echo "$LOGTIME - remote disk space check passed with $REMOTE_DISK_SPACE" >> "$LOGFILE"
+    LOGTIMEFUN "- remote disk space check passed with $REMOTE_DISK_SPACE"
 else
-    LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-    echo "$LOGTIME - remote disk space check failed with $REMOTE_DISK_SPACE, stopping backup" >> "$LOGFILE"
+    LOGTIMEFUN "- remote disk space check failed with $REMOTE_DISK_SPACE, stopping backup"
     exit 1
 fi
 
@@ -46,22 +49,19 @@ if [ ${#REMOTE_FILES_TO_REMOVE[@]} -gt 0 ]
 then
     for i in ${REMOTE_FILES_TO_REMOVE[@]}
     do
-        LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-        echo "$LOGTIME - $REMOTE_FILES_TO_REMOVE is older than 30 days...  deleting" >> "$LOGFILE"
+        LOGTIMEFUN "- $REMOTE_FILES_TO_REMOVE is older than 30 days...  deleting"
         ssh $REMOTE_USER@$REMOTE_HOST rm -rf $REMOTE_FILES_TO_REMOVE
     done
 fi
 
-LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - creating the tarball for $SOURCE at $TARBALL" >> "$LOGFILE"
+LOGTIMEFUN "- creating the tarball for $SOURCE at $TARBALL"
 /bin/tar -I pbzip2 -cf "$TARBALL" --absolute-names "$SOURCE" 2>> "$LOGFILE"
 
-LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - starting the RSYNC to $REMOTE_HOST" >> "$LOGFILE"
-/usr/bin/rsync --remove-source-files --stats -hav $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR >> "$LOGFILE"
+LOGTIMEFUN "- starting the RSYNC to $REMOTE_HOST" >> "$LOGFILE"
+/usr/bin/rsync --remove-source-files --stats -hav $TARBALL $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR
 echo " " >> "$LOGFILE"
 END=`date +%s`
 RUNTIME=$((END-START))
 MINUTES=$((RUNTIME / 60))
-LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
-echo "$LOGTIME - script completed in $MINUTES minutes." >> "$LOGFILE"
+
+LOGTIMEFUN "- script completed in $MINUTES minutes."
