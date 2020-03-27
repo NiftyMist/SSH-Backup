@@ -33,6 +33,16 @@ then
     /usr/bin/touch "$LOGFILE"
 fi
 
+# check remote host availability
+REMOTE_AVAILABILITY=`ssh -q $ERMOTE_USER@REMOTE_HOST exit`
+if [ "$REMOTE_AVAILABILITY" == 255 ]
+then
+    LOGTIMEFUN "- remote host is not available, stopping backup"
+    exit 1
+else
+    LOGTIMEFUN "- remote host is available"
+fi
+
 # check remote disk space
 REMOTE_DISK_SPACE=`ssh $REMOTE_USER@$REMOTE_HOST df -Ph $REMOTE_PARTITION | tail -n 1 | awk '{ print $5 }'`
 SPACE=${REMOTE_DISK_SPACE::-1}
