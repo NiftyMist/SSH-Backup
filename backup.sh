@@ -10,7 +10,7 @@ LOGDIR="/var/log/scripts"
 
 LOGFILE="/var/log/scripts/backup-script.log"
 
-CONF="$(dirname $0)/backup.conf"
+CONF="$(readlink -f $0)/backup.conf"
 
 export $CONF
 
