@@ -16,6 +16,14 @@ CONF="$(dirname $ABSPATH)/backup.conf"
 
 source $CONF
 
+CONFIGVARS=(
+    SOURCE
+    REMOTE_USER
+    REMOTE_HOST
+    REMOTE_DIR
+    REMOTE_PARTITION
+)
+
 LOGTIMEFUN () {
     LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
     echo "$LOGTIME $1" | tee -a $LOGFILE
@@ -34,6 +42,18 @@ then
     LOGTIMEFUN "- not config file found in $CONF"
     exit 1
 fi
+
+# check if config vars are set
+for VAR in ${CONFIGVARS[@]}
+do
+    if [ -v "${VAR}" ]
+    then
+        LOGTIMEFUN "$VAR is set."
+    else
+        LOGTIMEFUN "$VAR is not set.  Please set correct variables in $CONF"
+        exit 1
+    fi  
+done
 
 # check remote host availability
 REMOTE_AVAILABILITY=`nc -z $REMOTE_HOST 22`
