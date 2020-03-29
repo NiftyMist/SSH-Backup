@@ -1,17 +1,5 @@
 #!/bin/bash
 
-# adjustable vars
-SOURCE="/zfs/home-share"
-
-REMOTE_USER="root"
-
-REMOTE_HOST="bak01.mitchell.house"
-
-REMOTE_DIR="/zfs-bakup/offsite/home-share/"
-
-REMOTE_PARTITION="/zfs-bakup/offsite"
-# end adjustable vars
-
 START=`date +%s`
 
 DATE=`date "+%Y-%m-%d"`
@@ -22,6 +10,10 @@ LOGDIR="/var/log/scripts"
 
 LOGFILE="/var/log/scripts/backup-script.log"
 
+CONF="$(dirname $0)/backup.conf"
+
+export $CONF
+
 LOGTIMEFUN () {
     LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
     echo "$LOGTIME $1" | tee -a $LOGFILE
@@ -31,6 +23,11 @@ if [ ! -d "$LOGDIR" ]
 then
     /bin/mkdir "$LOGDIR"
     /usr/bin/touch "$LOGFILE"
+fi
+
+if [ ! -d "$CONF" ] 
+then
+    LOGTIMEFUN "- not config file found in $CONF"
 fi
 
 # check remote host availability
