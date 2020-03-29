@@ -13,7 +13,7 @@ LOGFILE="/var/log/scripts/backup-script.log"
 ABSPATH=$(readlink -f $0)
 CONF="$(dirname $ABSPATH)/backup.conf"
 
-export $CONF
+source $CONF
 
 LOGTIMEFUN () {
     LOGTIME=`date "+%Y/%m/%d %H:%M:%S"`
