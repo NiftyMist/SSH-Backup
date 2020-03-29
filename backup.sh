@@ -29,6 +29,7 @@ fi
 if [ ! -d "$CONF" ] 
 then
     LOGTIMEFUN "- not config file found in $CONF"
+    exit 1
 fi
 
 # check remote host availability
