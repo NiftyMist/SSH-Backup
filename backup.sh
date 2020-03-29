@@ -26,7 +26,7 @@ then
     /usr/bin/touch "$LOGFILE"
 fi
 
-if [ ! -d "$CONF" ] 
+if [ ! -f "$CONF" ] 
 then
     LOGTIMEFUN "- not config file found in $CONF"
     exit 1
