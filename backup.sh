@@ -11,6 +11,7 @@ LOGDIR="/var/log/scripts"
 LOGFILE="/var/log/scripts/backup-script.log"
 
 ABSPATH=$(readlink -f $0)
+
 CONF="$(dirname $ABSPATH)/backup.conf"
 
 source $CONF
@@ -20,12 +21,14 @@ LOGTIMEFUN () {
     echo "$LOGTIME $1" | tee -a $LOGFILE
 }
 
+# check if log dir is created
 if [ ! -d "$LOGDIR" ] 
 then
     /bin/mkdir "$LOGDIR"
     /usr/bin/touch "$LOGFILE"
 fi
 
+# check if config file is created
 if [ ! -f "$CONF" ] 
 then
     LOGTIMEFUN "- not config file found in $CONF"
